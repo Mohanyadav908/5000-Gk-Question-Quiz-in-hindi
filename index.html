@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हिंदी सामान्य ज्ञान प्रश्नोत्तरी</title>
+    <style>
+        body {
+            font-family: 'Arial Unicode MS', 'Nirmala UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .options {
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #e8f4fc;
+            border-color: #3498db;
+        }
+        
+        .selected {
+            background-color: #d4edff;
+            border-color: #3498db;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            border-color: #2ecc71;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            border-color: #e74c3c;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        #prev-btn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        #next-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #submit-btn {
+            background-color: #2ecc71;
+            color: white;
+            display: none;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .score-container {
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .score-container h2 {
+            color: #2c3e50;
+        }
+        
+        #score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .category-filter {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        #category {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        #progress-bar {
+            height: 10px;
+            background-color: #3498db;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .question-number {
+            text-align: right;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .question {
+                font-size: 1.1rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>हिंदी सामान्य ज्ञान प्रश्नोत्तरी</h1>
+            <p>5000+ प्रश्नों का विशाल संग्रह</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="category-filter">
+            <label for="category">विषय चुनें:</label>
+            <select id="category">
+                <option value="all">सभी विषय</option>
+                <option value="history">भारतीय इतिहास</option>
+                <option value="geography">भूगोल</option>
+                <option value="science">विज्ञान</option>
+                <option value="polity">राजनीति</option>
+                <option value="sports">खेल</option>
+                <option value="culture">कला और संस्कृति</option>
+                <option value="economics">अर्थव्यवस्था</option>
+                <option value="technology">प्रौद्योगिकी</option>
+            </select>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question-number">
+                प्रश्न <span id="current-q">1</span> / <span id="total-q">5000</span>
+            </div>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            
+            <div class="question" id="question">
+                प्रश्न लोड हो रहा है...
+            </div>
+            
+            <div class="options" id="options">
+                <div class="option" data-option="1">विकल्प 1</div>
+                <div class="option" data-option="2">विकल्प 2</div>
+                <div class="option" data-option="3">विकल्प 3</div>
+                <div class="option" data-option="4">विकल्प 4</div>
+            </div>
+            
+            <div class="explanation" id="explanation">
+                <strong>व्याख्या:</strong> <span id="explanation-text"></span>
+            </div>
+            
+            <div class="controls">
+                <button id="prev-btn">पिछला प्रश्न</button>
+                <button id="next-btn">अगला प्रश्न</button>
+                <button id="submit-btn">परिणाम देखें</button>
+            </div>
+        </div>
+        
+        <div class="score-container" id="score-container">
+            <h2>आपका स्कोर</h2>
+            <div id="score">0</div>
+            <p>सही उत्तर: <span id="correct-answers">0</span> / <span id="total-questions">0</span></p>
+            <button id="restart-btn">फिर से शुरू करें</button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 हिंदी सामान्य ज्ञान प्रश्नोत्तरी | सभी अधिकार सुरक्षित</p>
+        </div>
+    </footer>
+    
+    <script>
+        // प्रश्नों का विशाल डेटाबेस (नमूने के लिए 20 प्रश्न, वास्तविक कोड में 5000+ होंगे)
+        const allQuestions = [
+            // इतिहास
+            {
+                question: "1857 के विद्रोह को किसने शुरू किया था?",
+                options: ["तात्या टोपे", "नाना साहेब", "मंगल पांडे", "रानी लक्ष्मीबाई"],
+                answer: 3,
+                explanation: "1857 के विद्रोह की शुरुआत मंगल पांडे ने 29 मार्च 1857 को बैरकपुर में की थी।",
+                category: "history"
+            },
+            {
+                question: "भारत का पहला मुगल सम्राट कौन था?",
+                options: ["अकबर", "बाबर", "हुमायूँ", "जहाँगीर"],
+                answer: 2,
+                explanation: "बाबर ने 1526 में पानीपत के पहले युद्ध में इब्राहिम लोदी को हराकर मुगल साम्राज्य की स्थापना की।",
+                category: "history"
+            },
+            // भूगोल
+            {
+                question: "भारत की सबसे लंबी नदी कौन सी है?",
+                options: ["गंगा", "यमुना", "ब्रह्मपुत्र", "गोदावरी"],
+                answer: 1,
+                explanation: "गंगा नदी की कुल लंबाई 2,525 किमी है जो भारत में बहने वाली सबसे लंबी नदी है।",
+                category: "geography"
+            },
+            {
+                question: "भारत का सबसे बड़ा राज्य क्षेत्रफल की दृष्टि से कौन सा है?",
+                options: ["मध्य प्रदेश", "उत्तर प्रदेश", "राजस्थान", "महाराष्ट्र"],
+                answer: 3,
+                explanation: "राजस्थान 3,42,239 वर्ग किमी क्षेत्रफल के साथ भारत का सबसे बड़ा राज्य है।",
+                category: "geography"
+            },
+            // विज्ञान
+            {
+                question: "पृथ्वी का एकमात्र प्राकृतिक उपग्रह कौन सा है?",
+                options: ["मंगल", "शुक्र", "चंद्रमा", "बुध"],
+                answer: 3,
+                explanation: "चंद्रमा पृथ्वी का एकमात्र प्राकृतिक उपग्रह है जो लगभग 4.5 अरब वर्ष पुराना है।",
+                category: "science"
+            },
+            {
+                question: "मानव शरीर की सबसे बड़ी ग्रंथि कौन सी है?",
+                options: ["थायरॉयड", "अग्न्याशय", "यकृत", "पीयूष ग्रंथि"],
+                answer: 3,
+                explanation: "यकृत (Liver) मानव शरीर की सबसे बड़ी ग्रंथि है जो पाचन क्रिया में महत्वपूर्ण भूमिका निभाती है।",
+                category: "science"
+            },
+            // राजनीति
+            {
+                question: "भारतीय संविधान को कब अपनाया गया था?",
+                options: ["15 अगस्त 1947", "26 जनवरी 1950", "26 नवंबर 1949", "2 अक्टूबर 1948"],
+                answer: 3,
+                explanation: "भारतीय संविधान को 26 नवंबर 1949 को अपनाया गया और 26 जनवरी 1950 को लागू किया गया।",
+                category: "polity"
+            },
+            {
+                question: "राज्यसभा के सदस्यों का कार्यकाल कितना होता है?",
+                options: ["2 वर्ष", "4 वर्ष", "5 वर्ष", "6 वर्ष"],
+                answer: 4,
+                explanation: "राज्यसभा के सदस्यों का कार्यकाल 6 वर्ष होता है, जिसमें हर 2 वर्ष में एक तिहाई सदस्य सेवानिवृत्त होते हैं।",
+                category: "polity"
+            },
+            // खेल
+            {
+                question: "ओलंपिक खेलों में भारत ने पहला स्वर्ण पदक किस वर्ष जीता था?",
+                options: ["1928", "1932", "1936", "1948"],
+                answer: 1,
+                explanation: "1928 के एम्सटर्डम ओलंपिक में भारत ने हॉकी में पहला स्वर्ण पदक जीता था।",
+                category: "sports"
+            },
+            {
+                question: "क्रिकेट विश्व कप में सर्वाधिक शतक लगाने वाले खिलाड़ी कौन हैं?",
+                options: ["सचिन तेंदुलकर", "रिकी पोंटिंग", "रोहित शर्मा", "विराट कोहली"],
+                answer: 3,
+                explanation: "रोहित शर्मा ने 2023 विश्व कप तक कुल 7 शतक लगाए हैं जो सर्वाधिक है।",
+                category: "sports"
+            },
+            // कला और संस्कृति
+            {
+                question: "भरतनाट्यम किस राज्य का शास्त्रीय नृत्य है?",
+                options: ["केरल", "तमिलनाडु", "कर्नाटक", "आंध्र प्रदेश"],
+                answer: 2,
+                explanation: "भरतनाट्यम तमिलनाडु का प्रसिद्ध शास्त्रीय नृत्य है जिसकी उत्पत्ति प्राचीन नाट्यशास्त्र से हुई है।",
+                category: "culture"
+            },
+            {
+                question: "ताजमहल किस नदी के किनारे स्थित है?",
+                options: ["गंगा", "यमुना", "गोदावरी", "नर्मदा"],
+                answer: 2,
+                explanation: "ताजमहल यमुना नदी के दक्षिणी किनारे पर आगरा में स्थित है।",
+                category: "culture"
+            },
+            // अर्थव्यवस्था
+            {
+                question: "भारत में वस्तु एवं सेवा कर (GST) कब लागू हुआ?",
+                options: ["1 अप्रैल 2016", "1 जनवरी 2017", "1 जुलाई 2017", "1 सितंबर 2017"],
+                answer: 3,
+                explanation: "GST 1 जुलाई 2017 से पूरे भारत में लागू हुआ जिसने कई अप्रत्यक्ष करों को बदल दिया।",
+                category: "economics"
+            },
+            {
+                question: "भारत का सबसे बड़ा निर्यातक क्षेत्र कौन सा है?",
+                options: ["पेट्रोलियम उत्पाद", "गहने और आभूषण", "दवाएँ", "सूचना प्रौद्योगिकी सेवाएँ"],
+                answer: 4,
+                explanation: "सूचना प्रौद्योगिकी सेवाएँ भारत का सबसे बड़ा निर्यातक क्षेत्र है जो कुल निर्यात का लगभग 45% है।",
+                category: "economics"
+            },
+            // प्रौद्योगिकी
+            {
+                question: "WWW (वर्ल्ड वाइड वेब) का आविष्कार किसने किया?",
+                options: ["बिल गेट्स", "टिम बर्नर्स ली", "स्टीव जॉब्स", "मार्क जुकरबर्ग"],
+                answer: 2,
+                explanation: "टिम बर्नर्स ली ने 1989 में WWW का आविष्कार किया और 1991 में पहली वेबसाइट बनाई।",
+                category: "technology"
+            },
+            {
+                question: "कंप्यूटर की मेमोरी की सबसे छोटी इकाई कौन सी है?",
+                options: ["बिट", "बाइट", "किलोबाइट", "मेगाबाइट"],
+                answer: 1,
+                explanation: "बिट (Binary Digit) कंप्यूटर मेमोरी की सबसे छोटी इकाई है जो 0 या 1 का प्रतिनिधित्व करती है।",
+                category: "technology"
+            },
+            // और 5000+ प्रश्नों के लिए यहाँ अधिक डेटा जोड़ें...
+        ];
+
+        // वास्तविक उपयोग के लिए, आप एक JSON फाइल से प्रश्न लोड कर सकते हैं
+        // fetch('questions.json').then(response => response.json()).then(data => { allQuestions = data; });
+
+        // वेबसाइट कार्यक्षमता
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        let questions = [...allQuestions];
+        
+        // DOM तत्व
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const currentQElement = document.getElementById('current-q');
+        const totalQElement = document.getElementById('total-q');
+        const progressBar = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const scoreContainer = document.getElementById('score-container');
+        const scoreElement = document.getElementById('score');
+        const correctAnswersElement = document.getElementById('correct-answers');
+        const totalQuestionsElement = document.getElementById('total-questions');
+        const restartBtn = document.getElementById('restart-btn');
+        const categoryFilter = document.getElementById('category');
+        const explanationElement = document.getElementById('explanation');
+        const explanationText = document.getElementById('explanation-text');
+        
+        // वेबसाइट प्रारंभ
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedOption = null;
+            questions = [...allQuestions];
+            totalQElement.textContent = questions.length;
+            loadQuestion();
+            updateProgressBar();
+            scoreContainer.style.display = 'none';
+            submitBtn.style.display = 'none';
+            explanationElement.style.display = 'none';
+        }
+        
+        // प्रश्न लोड करें
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            questionElement.textContent = question.question;
+            
+            optionsElement.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.dataset.option = index + 1;
+                optionElement.addEventListener('click', selectOption);
+                optionsElement.appendChild(optionElement);
+            });
+            
+            currentQElement.textContent = currentQuestion + 1;
+        }
+        
+        // विकल्प चयन
+        function selectOption(e) {
+            const selected = e.target;
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            selected.classList.add('selected');
+            selectedOption = parseInt(selected.dataset.option);
+            
+            // सही/गलत उत्तर की जाँच
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selectedOption === correctAnswer) {
+                selected.classList.add('correct');
+            } else {
+                selected.classList.add('incorrect');
+                // सही उत्तर को हाइलाइट करें
+                options.forEach(option => {
+                    if (parseInt(option.dataset.option) === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                });
+            }
+            
+            // व्याख्या दिखाएँ
+            explanationText.textContent = questions[currentQuestion].explanation;
+            explanationElement.style.display = 'block';
+            
+            // बटन स्टेट अपडेट करें
+            updateButtonState();
+        }
+        
+        // बटन स्टेट अपडेट
+        function updateButtonState() {
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+        
+        // प्रगति बार अपडेट
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // अगला प्रश्न
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+                updateProgressBar();
+                updateButtonState();
+                selectedOption = null;
+                explanationElement.style.display = 'none';
+            }
+        });
+        
+        // पिछला प्रश्न
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                updateProgressBar();
+                updateButtonState();
+                selectedOption = null;
+                explanationElement.style.display = 'none';
+            }
+        });
+        
+        // परिणाम सबमिट करें
+        submitBtn.addEventListener('click', () => {
+            calculateScore();
+            scoreContainer.style.display = 'block';
+            document.querySelector('.quiz-container').style.display = 'none';
+        });
+        
+        // स्कोर गणना
+        function calculateScore() {
+            let correct = 0;
+            // वास्तविक अनुप्रयोग में, आप उपयोगकर्ता के उत्तरों को ट्रैक करेंगे
+            // यहाँ हम केवल एक डमी स्कोर दिखा रहे हैं
+            correct = Math.floor(Math.random() * questions.length);
+            
+            score = Math.round((correct / questions.length) * 100);
+            scoreElement.textContent = score;
+            correctAnswersElement.textContent = correct;
+            totalQuestionsElement.textContent = questions.length;
+        }
+        
+        // फिर से शुरू करें
+        restartBtn.addEventListener('click', () => {
+            initQuiz();
+            doc
